@@ -1,8 +1,9 @@
-import {Component} from 'react';
+import { Component } from 'react';
 import { Button } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import KDScale from './KDScale';
-import { Line } from '@nivo/line';
+import '../node_modules/react-vis/dist/style.css';
+import { XYPlot, LineSeries } from 'react-vis';
 
 class Input extends Component {
     constructor (props) {
@@ -24,13 +25,12 @@ class Input extends Component {
         return (
             <div>
                 {this.state.data.length > 0 ?
-                    <Line 
-                    width={300}
-                    height={300}
-                    data={ this.state.data }
-                    />
-                    : <div></div>
-                }
+                    <XYPlot height={300} width={500}>
+                        <LineSeries data={this.state.data}/>
+                    </XYPlot>
+                    :
+                    <div></div>
+                    }
                 <TextField
                     value = { this.state.value }
                     id = "input"
@@ -44,7 +44,7 @@ class Input extends Component {
                     color = "primary"
                     onClick = { this.updateData }
                     >
-                    Hello!
+                    Generate Graph 
                 </Button>
             </div>
         );

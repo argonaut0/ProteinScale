@@ -1,3 +1,5 @@
+import { ContinuousSizeLegend } from "react-vis";
+
 class KDScale {
     static aminoKey = {
         "I": 4.5,
@@ -25,23 +27,26 @@ class KDScale {
     // calculate rolling averages, window: number, residues: string => [number]
     static calculate(res, window) {
         let data = [];
+        let vals = [];
         for (let i = 0; i < res.length; i++) {
+            if (KDScale.aminoKey.hasOwnProperty(res[i])) {
+                vals.push(KDScale.aminoKey[res[i]]);
+            }
+        }
+        for (let i = 0; i < vals.length - window; i++) {
+            let sum = 0;
+            for (let j = 0; j < window; j++) {
+                sum += vals[i+j];
+            }
             data.push(
                 {
                     x: Math.floor(window / 2) + (window * i),
-                    y: res.slice(i, i + window)
-                            .split("")
-                            .map( (x) => KDScale.aminoKey[x] )
-                            .reduce( (x, y) => x + y)
+                    y: sum 
                 }
                 );
         }
-        return [
-            {
-                id: "KDScale",
-                data: data
-            }
-        ];
+        console.log(data);
+        return data; 
     }
 }
 
