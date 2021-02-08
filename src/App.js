@@ -4,53 +4,41 @@ import { Button, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } f
 import { TextField } from '@material-ui/core';
 import KDScale from './KDScale';
 import '../node_modules/react-vis/dist/style.css';
-import { XYPlot, LineSeries, XAxis, YAxis, VerticalGridLines, HorizontalGridLines } from 'react-vis';
+import Graph from './Graph';
 
 class App extends Component {
     constructor (props) {
         super(props);
-        this.state = {value: "", data: []}; 
+        this.state = {residueString: "", graphData: []}; 
         this.updateTextValue = this.updateTextValue.bind(this);
         this.updateData = this.updateData.bind(this);
     }
     
     updateTextValue (event) {
-        this.setState( { value: event.target.value } );
+        this.setState( { residueString: event.target.value } );
     }
 
     updateData (event) {
-        this.setState( { data: KDScale.calculate(this.state.value, 9) } );
+        this.setState( { graphData: KDScale.calculate(this.state.residueString, 9) } );
     }
 
     render () {
         return (
             <div>
                 <h1>Protein Scale Graph Generator</h1>
-                {this.state.data.length > 0 ?
-                    <XYPlot height={300} width={500}>
-                        <VerticalGridLines/>
-                        <HorizontalGridLines/>
-                        <XAxis title="Residue Position"/>
-                        <YAxis title="Hydrophobicity"/>
-                        <LineSeries data={this.state.data}/>
-
-                    </XYPlot>
-                    :
-                    <div></div>
-                    }
+                <Graph graphData={this.state.graphData} xLabel = "Residue" yLabel = "Hydrophobicity" />
                 <FormControl component="fieldset">
                     <FormLabel component="legend">Scale</FormLabel>
                     <RadioGroup aria-label="scale" name="scale1" >
-                        <FormControlLabel value="K-D Hydrophobicity" control={<Radio />} label="KD" />
-                        <FormControlLabel value="placeholder" control={<Radio />} label="what" />
-                        <FormControlLabel value="" control={<Radio />} label="wheee" />
-                        <FormControlLabel value="" disabled control={<Radio />} label="(Disabled option)" />
+                        <FormControlLabel value="1" control={<Radio />} label="K-D Hydrophobicity" />
+                        <FormControlLabel value="2" control={<Radio />} label="Unimplemented" />
+                        <FormControlLabel value="3" control={<Radio />} label="Unimplemented" />
+                        <FormControlLabel value="4" disabled control={<Radio />} label="(Disabled option)" />
                     </RadioGroup>
                 </FormControl>
                 <TextField
-                    value = { this.state.value }
+                    value = { this.state.residueString }
                     label = "Enter 1-letter residue string"
-                    id = "input"
                     multiline
                     onChange = { this.updateTextValue }
                     variant="outlined"
@@ -58,8 +46,7 @@ class App extends Component {
                     />
                 <TextField
                     value = { this.state.window }
-                    label = "Window size"
-                    id = "window"
+                    label = "Window size (Unimplemented)"
                     onChange = { this.updateWindowValue }
                     type = "number"
                     variant="outlined"
