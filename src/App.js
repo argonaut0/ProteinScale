@@ -9,17 +9,22 @@ import Graph from './Graph';
 class App extends Component {
     constructor (props) {
         super(props);
-        this.state = {residueString: "", graphData: []}; 
+        this.state = {residueString: "", graphData: [], windowSize: 7};
         this.updateTextValue = this.updateTextValue.bind(this);
         this.updateData = this.updateData.bind(this);
+        this.updateWindowSize = this.updateWindowSize.bind(this);
     }
     
     updateTextValue (event) {
         this.setState( { residueString: event.target.value } );
     }
 
+    updateWindowSize (event) {
+        this.setState( { windowSize: event.target.value } );
+    }
+
     updateData (event) {
-        this.setState( { graphData: KDScale.calculate(this.state.residueString, 9) } );
+        this.setState( { graphData: KDScale.calculate(this.state.residueString, this.state.windowSize) } );
     }
 
     render () {
@@ -45,13 +50,12 @@ class App extends Component {
                     type="text"
                     />
                 <TextField
-                    value = { this.state.window }
-                    label = "Window size (Unimplemented)"
-                    onChange = { this.updateWindowValue }
+                    value = { this.state.windowSize }
+                    label = "Window size"
+                    onChange = { this.updateWindowSize }
                     type = "number"
                     variant="outlined"
                     />
-
                 <Button
                     variant = "contained"
                     color = "primary"
