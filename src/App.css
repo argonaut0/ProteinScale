@@ -1,0 +1,13 @@
+.App {
+    margin: auto;
+    width: 50%;
+    text-align: center;
+    align-items: center;
+}
+
+.rv-xy-plot{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
