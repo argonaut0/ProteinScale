@@ -1,4 +1,6 @@
-import { ContinuousSizeLegend } from "react-vis";
+import { DataPoint } from './Graph';
+
+type Residue = "I" | "V" | "L" | "F" | "C" | "M" | "A" | "G" | "T" | "S" | "W" | "Y" | "P" | "H" | "E" | "Q" | "D" | "N" | "K" | "R";
 
 class KDScale {
     static aminoKey = {
@@ -25,12 +27,13 @@ class KDScale {
     }
     
     // calculate rolling averages, window: number, residues: string => [number]
-    static calculate(res, window) {
-        let data = [];
-        let vals = [];
+    static calculate(res: string, window: number) {
+        let data: DataPoint[] = [];
+        let vals: number[] = [];
         for (let i = 0; i < res.length; i++) {
             if (KDScale.aminoKey.hasOwnProperty(res[i])) {
-                vals.push(KDScale.aminoKey[res[i]]);
+                // Casting to "I" because we already Type guarded above
+                vals.push(KDScale.aminoKey[res[i] as Residue]);
             }
         }
         for (let i = 0; i < vals.length - window; i++) {

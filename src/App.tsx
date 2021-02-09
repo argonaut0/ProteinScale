@@ -5,9 +5,17 @@ import { TextField } from '@material-ui/core';
 import KDScale from './KDScale';
 import '../node_modules/react-vis/dist/style.css';
 import Graph from './Graph';
+import { DataPoint } from './Graph';
 
-class App extends Component {
-    constructor (props) {
+type AppState = {
+    residueString: string,
+    graphData: DataPoint[],
+    windowSize: number,
+    radio: string
+};
+
+class App extends Component<any, AppState> {
+    constructor (props?: any) {
         super(props);
         this.state = {
             residueString: "MLELLPTAVEGVSQAQITGRPEWIWLALGTALMGLGTLYFLVKGMGVSDPDAKKFYAITTLVPAIAFTMYLSMLLGYGLTMVPFGGEQNPIYWARYADWLFTTPLLLLDLALLVDADQGTILALVGADGIMIGTGLVGALTKVYSYRFVWWAISTAAMLYILYVLFFGFTSKAESMRPEVASTFKVLRNVTVVLWSAYPVVWLIGSEGAGIVPLNIETLLFMVLDVSAKVGFGLILLRSRAIFGEAEAPEPSAGDGAAATSD",
@@ -21,19 +29,19 @@ class App extends Component {
         this.updateRadio = this.updateRadio.bind(this);
     }
     
-    updateTextValue (event) {
+    updateTextValue (event: any): void {
         this.setState( { residueString: event.target.value } );
     }
 
-    updateWindowSize (event) {
+    updateWindowSize (event: any): void {
         this.setState( { windowSize: event.target.value } );
     }
 
-    updateData (event) {
+    updateData (): void {
         this.setState( { graphData: KDScale.calculate(this.state.residueString, this.state.windowSize) } );
     }
 
-    updateRadio (event) {
+    updateRadio (event: any): void {
         this.setState( { radio: event.target.value } );
     }
 
